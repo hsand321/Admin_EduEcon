@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "187126865417",
+    "project_id": "admin-eduecon-80d2f",
+    "storage_bucket": "admin-eduecon-80d2f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:187126865417:android:e113783368f887ebbc22d8",
+        "android_client_info": {
+          "package_name": "com.example.admin_eduecon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "187126865417-9hrepubctr9ur7uqru90tcpu03fql99o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAQgvIp21E2wUDTds2MPeEJloSFfyxKPo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "187126865417-9hrepubctr9ur7uqru90tcpu03fql99o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
