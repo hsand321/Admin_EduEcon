@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:text="Info Guru"
+                android:text="Admin Info Guru"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
