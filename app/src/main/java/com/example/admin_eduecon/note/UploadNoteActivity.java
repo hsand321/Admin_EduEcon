@@ -80,7 +80,7 @@ public class UploadNoteActivity extends AppCompatActivity {
         String title =  noteTitle.getText().toString();
 
         Calendar calForDate = Calendar.getInstance();
-        SimpleDateFormat currentDate = new SimpleDateFormat("dd-mm-yy");
+        SimpleDateFormat currentDate = new SimpleDateFormat("dd-MM-yy");
         String date = currentDate.format(calForDate.getTime());
 
         Calendar calForTime = Calendar.getInstance();
