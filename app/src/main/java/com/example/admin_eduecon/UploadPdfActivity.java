@@ -66,18 +66,15 @@ public class UploadPdfActivity extends AppCompatActivity {
 
         addPdf.setOnClickListener(v -> openGallery());
 
-        uploadPdfBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                title = pdfTitle.getText().toString();
-                if (title.isEmpty()){
-                    pdfTitle.setError("empty");
-                    pdfTitle.requestFocus();
-                }else if (pdfData == null){
-                    Toast.makeText(UploadPdfActivity.this, "please Upload PDF", Toast.LENGTH_SHORT).show();
-                }else {
-                    uploadPdf();
-                }
+        uploadPdfBtn.setOnClickListener(view -> {
+            title = pdfTitle.getText().toString();
+            if (title.isEmpty()){
+                pdfTitle.setError("empty");
+                pdfTitle.requestFocus();
+            }else if (pdfData == null){
+                Toast.makeText(UploadPdfActivity.this, "please Upload PDF", Toast.LENGTH_SHORT).show();
+            }else {
+                uploadPdf();
             }
         });
     }
@@ -88,14 +85,11 @@ public class UploadPdfActivity extends AppCompatActivity {
         pd.show();
         StorageReference reference = storageReference.child("pdf/"+pdfName+"-"+System.currentTimeMillis()+".pdf");
         reference.putFile(pdfData)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Task<Uri> uriTask =  taskSnapshot.getStorage().getDownloadUrl();
-                        while (!uriTask.isComplete());
-                        Uri uri = uriTask.getResult();
-                        uploadData(String.valueOf(uri));
-                    }
+                .addOnSuccessListener(taskSnapshot -> {
+                    Task<Uri> uriTask =  taskSnapshot.getStorage().getDownloadUrl();
+                    while (!uriTask.isComplete());
+                    Uri uri = uriTask.getResult();
+                    uploadData(String.valueOf(uri));
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {

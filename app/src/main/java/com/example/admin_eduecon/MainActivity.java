@@ -9,10 +9,11 @@ import android.view.View;
 
 import com.example.admin_eduecon.note.DeleteNoteActivity;
 import com.example.admin_eduecon.note.UploadNoteActivity;
+import com.example.admin_eduecon.video.VideoUploaderActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    CardView uploadNote,addEbook,delNote;
+    CardView uploadNote,addEbook,delNote, addVideo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,10 +22,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         uploadNote = findViewById(R.id.addNote);
         addEbook = findViewById(R.id.addEbook);
         delNote = findViewById(R.id.delNote);
+        addVideo = findViewById(R.id.addVideo);
+
 
         uploadNote.setOnClickListener(this);
         addEbook.setOnClickListener(this);
         delNote.setOnClickListener(this);
+        addVideo.setOnClickListener(this);
     }
 
     @Override
@@ -41,6 +45,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.delNote:
                 intent = new Intent(MainActivity.this, DeleteNoteActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.addVideo:
+                intent = new Intent(MainActivity.this, VideoUploaderActivity.class);
                 startActivity(intent);
                 break;
         }
