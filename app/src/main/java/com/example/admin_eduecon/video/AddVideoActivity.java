@@ -1,13 +1,9 @@
 package com.example.admin_eduecon.video;
-
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -19,10 +15,7 @@ import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.example.admin_eduecon.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -45,13 +38,9 @@ public class AddVideoActivity extends AppCompatActivity {
     private VideoView videoView;
     private Button uploadVideoBtn;
     private FloatingActionButton pickVideofab;
+    MediaController mediaController;
 
     private static final int VIDEO_PICK_GALLERY_CODE = 100;
-    private static final int VIDEO_PICK_CAMERA_CODE = 101;
-    private static final int CAMERA_REQUEST_CODE = 102;
-    private static final int PICK_VIDEO_REQUEST = 1;
-
-    private String[] cameraPermissions;
 
     private Uri videoUri = null;
     private String title;
@@ -80,8 +69,6 @@ public class AddVideoActivity extends AppCompatActivity {
         progressDialog.setMessage("Uploading video");
         progressDialog.setCanceledOnTouchOutside(false);
 
-        cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-
         uploadVideoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,7 +83,10 @@ public class AddVideoActivity extends AppCompatActivity {
             }
         });
 
-        pickVideofab.setOnClickListener(v -> videoPickDialog());
+        pickVideofab.setOnClickListener(v -> videoPickGallery());
+        mediaController = new MediaController(this);
+        videoView.setMediaController(mediaController);
+        videoView.start();
 
     }
 
@@ -153,49 +143,11 @@ public class AddVideoActivity extends AppCompatActivity {
                 });
     }
 
-    private void videoPickDialog() {
-        Intent intent = new Intent();
-        intent.setType("video/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, PICK_VIDEO_REQUEST);
-//        String[] options = {"Camera", "Gallery"};
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("Pick Video from")
-//                .setItems(options, (dialog, i) -> {
-//                    if (i == 0) {
-//                        if (!checkCameraPermission()) {
-//                            requestCameraPermission();
-//                        } else {
-//                            videoPickCamera();
-//                        }
-//                    } else if (i == 1) {
-//                        videoPickGallery();
-//                    }
-//                });
-    }
-
-    private void requestCameraPermission() {
-        ActivityCompat.requestPermissions(this, cameraPermissions, CAMERA_REQUEST_CODE);
-    }
-
-    private boolean checkCameraPermission() {
-        boolean result1 = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
-        boolean result2 = ContextCompat.checkSelfPermission(this, Manifest.permission.WAKE_LOCK) == PackageManager.PERMISSION_GRANTED;
-
-        return result1 && result2;
-    }
-
     private void videoPickGallery() {
         Intent intent = new Intent();
         intent.setType("video/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Video"), VIDEO_PICK_GALLERY_CODE);
-    }
-
-    private void videoPickCamera() {
-        Intent intent = new Intent((MediaStore.ACTION_VIDEO_CAPTURE));
-        startActivityForResult(intent, VIDEO_PICK_CAMERA_CODE);
     }
 
     private void setVideoToVideoView() {
@@ -213,30 +165,12 @@ public class AddVideoActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case CAMERA_REQUEST_CODE:
-                if (grantResults.length > 0) {
-                    boolean cameraAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    boolean storageAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    if (cameraAccepted && storageAccepted) {
-                        videoPickCamera();
-                    } else {
-                        Toast.makeText(this, "Camera & Storage permission are required", Toast.LENGTH_SHORT).show();
-                    }
-                }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == VIDEO_PICK_GALLERY_CODE) {
-                videoUri = data.getData();
-                setVideoToVideoView();
-            } else if (requestCode == VIDEO_PICK_CAMERA_CODE) {
-                videoUri = data.getData();
+                if (data != null) {
+                    videoUri = data.getData();
+                }
                 setVideoToVideoView();
             }
         }

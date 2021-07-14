@@ -2,8 +2,10 @@ package com.example.admin_eduecon.video;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,9 +27,15 @@ public class VideoUploaderActivity extends AppCompatActivity {
     private RecyclerView rvVideo;
     private ArrayList<ModelVideo> videoArrayList;
     private AdapterVideo adapterVideo;
+    private static int REQUEST_CODE=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        }, REQUEST_CODE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_uploader);
 
@@ -54,7 +62,13 @@ public class VideoUploaderActivity extends AppCompatActivity {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                videoArrayList.clear();
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                    ModelVideo modelVideo = dataSnapshot.getValue(ModelVideo.class);
+                    videoArrayList.add(modelVideo);
+                }
+                adapterVideo = new AdapterVideo(VideoUploaderActivity.this, videoArrayList);
+                rvVideo.setAdapter(adapterVideo);
 
             }
 

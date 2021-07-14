@@ -45,4 +45,5 @@ public class ModelVideo {
     public void setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
     }
+
 }
