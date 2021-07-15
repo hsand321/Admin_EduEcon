@@ -15,10 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Admin_EduEcon">
-        <activity android:name=".video.AddVideoActivity"></activity>
+        <activity android:name=".ebook.PdfViewerActivity"/>
+        <activity android:name=".ebook.EbookActivity" />
+        <activity android:name=".video.AddVideoActivity" />
         <activity android:name=".video.VideoUploaderActivity" />
         <activity android:name=".note.DeleteNoteActivity" />
-        <activity android:name=".UploadPdfActivity" />
+        <activity android:name=".ebook.UploadPdfActivity" />
         <activity android:name=".note.UploadNoteActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

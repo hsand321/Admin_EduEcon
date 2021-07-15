@@ -7,13 +7,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.admin_eduecon.ebook.EbookActivity;
+import com.example.admin_eduecon.ebook.UploadPdfActivity;
 import com.example.admin_eduecon.note.DeleteNoteActivity;
 import com.example.admin_eduecon.note.UploadNoteActivity;
 import com.example.admin_eduecon.video.VideoUploaderActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    CardView uploadNote,addEbook,delNote, addVideo;
+    CardView uploadNote,addEbook,delNote, addVideo, ebook;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,12 +25,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         addEbook = findViewById(R.id.addEbook);
         delNote = findViewById(R.id.delNote);
         addVideo = findViewById(R.id.addVideo);
+        ebook = findViewById(R.id.ebook);
 
 
         uploadNote.setOnClickListener(this);
         addEbook.setOnClickListener(this);
         delNote.setOnClickListener(this);
         addVideo.setOnClickListener(this);
+        ebook.setOnClickListener(this);
     }
 
     @Override
@@ -40,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.addEbook:
-                intent = new Intent(MainActivity.this,UploadPdfActivity.class);
+                intent = new Intent(MainActivity.this, UploadPdfActivity.class);
                 startActivity(intent);
                 break;
             case R.id.delNote:
@@ -49,6 +53,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.addVideo:
                 intent = new Intent(MainActivity.this, VideoUploaderActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.ebook:
+                intent = new Intent(MainActivity.this, EbookActivity.class);
                 startActivity(intent);
                 break;
         }
